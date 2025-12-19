@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:decoder/l10n/app_localizations.dart';
 
 class ResultPage extends StatelessWidget {
   final String result;
@@ -14,7 +15,7 @@ class ResultPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Wynik:',
+              AppLocalizations.of(context)!.resultTitle,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: Colors.grey,
               ),

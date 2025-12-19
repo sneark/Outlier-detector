@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/main_view_model.dart';
+import 'package:decoder/l10n/app_localizations.dart';
 import '../../../../core/widgets/loader_view.dart';
+import '../../domain/entities/outlier_error.dart';
 import 'result_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -51,11 +53,11 @@ class _MainPageState extends State<MainPage> {
           children: [
             CustomScrollView(
               slivers: [
-                const SliverAppBar(
-                  title: Text("Detektor", style: TextStyle(color: Colors.black)),
+                SliverAppBar(
+                  title: Text(AppLocalizations.of(context)!.appTitle, style: const TextStyle(color: Colors.black)),
                   centerTitle: true,
                   pinned: true,
-                  backgroundColor: Color(0xFFF2F2F7),
+                  backgroundColor: const Color(0xFFF2F2F7),
                   surfaceTintColor: Colors.transparent,
                 ),
                 SliverPadding(
@@ -105,10 +107,10 @@ class _MainPageState extends State<MainPage> {
           TextField(
             key: const Key('inputField'),
             onChanged: (val) => context.read<MainViewModel>().updateEntryData(val),
-            decoration: const InputDecoration(
-              hintText: 'Wprowadź liczby (np. 5,3,18)',
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.inputLabel,
               border: InputBorder.none,
-              contentPadding: EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(16),
             ),
             minLines: 3,
             maxLines: 8,
@@ -119,21 +121,21 @@ class _MainPageState extends State<MainPage> {
             style: const TextStyle(fontSize: 17),
           ),
           
-          Selector<MainViewModel, String?>(
+          Selector<MainViewModel, OutlierError?>(
             selector: (_, vm) => vm.errorMessage,
-            builder: (_, errorMessage, __) {
+            builder: (_, error, __) {
               return AnimatedSize(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.fastOutSlowIn,
                 alignment: Alignment.topCenter,
-                child: errorMessage == null
+                child: error == null
                     ? const SizedBox.shrink()
                     : Container(
                         width: double.infinity,
                         color: Colors.white,
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                         child: Text(
-                          errorMessage,
+                          _getErrorMessage(context, error),
                           style: TextStyle(
                             color: Colors.red[400],
                             fontSize: 15,
@@ -167,11 +169,22 @@ class _MainPageState extends State<MainPage> {
           ),
           elevation: 0,
         ),
-        child: const Text(
-          'Wyszukaj',
-          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+        child: Text(
+          AppLocalizations.of(context)!.searchButton,
+          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
         ),
       ),
     );
+  }
+
+  String _getErrorMessage(BuildContext context, OutlierError error) {
+    switch (error) {
+      case OutlierError.insufficientData:
+        return AppLocalizations.of(context)!.errorInsufficientData;
+      case OutlierError.noOutlierFound:
+        return AppLocalizations.of(context)!.errorNoOutlier;
+      case OutlierError.unknown:
+        return AppLocalizations.of(context)!.errorUnknown;
+    }
   }
 }

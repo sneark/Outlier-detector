@@ -4,16 +4,18 @@ import '../../domain/usecases/outlier_detection_usecase.dart';
 import '../../domain/entities/outlier_error.dart';
 
 class MainViewModel extends ChangeNotifier {
-  final OutlierDetectionUseCase _useCase = OutlierDetectionUseCase();
+  final OutlierDetectionUseCase useCase;
 
   String entryData = "";
   String result = "";
-  String? errorMessage;
+  OutlierError? errorMessage;
   
   bool isLoading = false;
   bool showResult = false; 
   
   Timer? _loadingTimer;
+
+  MainViewModel({required this.useCase});
 
   void updateEntryData(String value) {
     if (entryData == value) return;
@@ -40,18 +42,18 @@ class MainViewModel extends ChangeNotifier {
     });
 
     try {
-      final int outlierValue = await _useCase.execute(entryData);
+      final int outlierValue = await useCase.execute(entryData);
 
       result = outlierValue.toString();
       showResult = true; 
       notifyListeners();
 
     } on OutlierError catch (e) {
-      _handleOutlierError(e);
+      errorMessage = e;
       notifyListeners();
       
     } catch (e) {
-      errorMessage = "Wystąpił nieoczekiwany błąd. Sprawdź poprawność danych.";
+      errorMessage = OutlierError.unknown;
       if (kDebugMode) {
         print("Error details: $e");
       }
@@ -66,16 +68,7 @@ class MainViewModel extends ChangeNotifier {
     showResult = false;
   }
 
-  void _handleOutlierError(OutlierError error) {
-    switch (error) {
-      case OutlierError.insufficientData:
-        errorMessage = "Wprowadź co najmniej 3 liczby, aby znaleźć wynik.";
-        break;
-      case OutlierError.noOutlierFound:
-        errorMessage = "Nie znaleziono liczby odstającej (wszystkie liczby mają tę samą parzystość).";
-        break;
-      }
-  }
+
 
   void _stopLoader() {
     _loadingTimer?.cancel();

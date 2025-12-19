@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:decoder/l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart'; 
 import 'package:decoder/features/outlier_detection/presentation/pages/main_page.dart';
 import 'package:decoder/features/outlier_detection/presentation/pages/result_page.dart';
 import 'package:decoder/features/outlier_detection/presentation/viewmodels/main_view_model.dart';
+import 'package:decoder/features/outlier_detection/domain/usecases/outlier_detection_usecase.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +17,21 @@ void main() {
       await tester.pumpWidget(
         MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (_) => MainViewModel()),
+            ChangeNotifierProvider(create: (_) => MainViewModel(useCase: OutlierDetectionUseCase())),
           ],
           child: const MaterialApp(
+            locale: Locale('en'),
+
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              Locale('en'),
+              Locale('pl'),
+            ],
             home: MainPage(), 
           ),
         ),
@@ -45,9 +60,21 @@ void main() {
       await tester.pumpWidget(
         MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (_) => MainViewModel()),
+            ChangeNotifierProvider(create: (_) => MainViewModel(useCase: OutlierDetectionUseCase())),
           ],
           child: const MaterialApp(
+            locale: Locale('en'),
+
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              Locale('en'),
+              Locale('pl'),
+            ],
             home: MainPage(),
           ),
         ),
@@ -62,9 +89,9 @@ void main() {
       final searchButton = find.byKey(const Key('searchButton'));
       await tester.tap(searchButton);
       
-      await tester.waitFor(find.text('Wprowadź co najmniej 3 liczby, aby znaleźć wynik.'));
+      await tester.waitFor(find.text('Please enter at least 3 numbers.'));
 
-      expect(find.text('Wprowadź co najmniej 3 liczby, aby znaleźć wynik.'), findsOneWidget);
+      expect(find.text('Please enter at least 3 numbers.'), findsOneWidget);
     });
   });
 }

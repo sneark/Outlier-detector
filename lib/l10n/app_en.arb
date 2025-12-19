@@ -1,0 +1,10 @@
+{
+    "appTitle": "Outlier Detector",
+    "inputLabel": "Enter numbers (e.g. 5,3,18)",
+    "searchButton": "Find Outlier",
+    "resultTitle": "Result:",
+    "errorInsufficientData": "Please enter at least 3 numbers.",
+    "errorNoOutlier": "No outlier found (all numbers have same parity).",
+    "errorInvalidFormat": "Invalid format. Check your input.",
+    "errorUnknown": "An unexpected error occurred."
+}

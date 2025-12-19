@@ -1,4 +1,5 @@
 enum OutlierError implements Exception {
   insufficientData,
-  noOutlierFound;
+  noOutlierFound,
+  unknown;
 }

@@ -1,0 +1,10 @@
+{
+    "appTitle": "Detektor Odchyleń",
+    "inputLabel": "Wprowadź liczby (np. 5,3,18)",
+    "searchButton": "Wyszukaj",
+    "resultTitle": "Wynik:",
+    "errorInsufficientData": "Wprowadź co najmniej 3 liczby.",
+    "errorNoOutlier": "Nie znaleziono liczby odstającej.",
+    "errorInvalidFormat": "Błędny format danych.",
+    "errorUnknown": "Wystąpił nieoczekiwany błąd."
+}
