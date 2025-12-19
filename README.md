@@ -1,16 +1,31 @@
-# decoder
+# Outlier Detector 
 
-A new Flutter project.
+A high-performance Flutter application capable of finding an outlier integer in a massive dataset. 
+Designed with **Clean Architecture** + **MVVM**.
 
-## Getting Started
+## 📂 Project Structure
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```text
+lib/
+├── core/
+│   └── widgets/
+│       └── loader_view.dart
+├── features/
+│   └── outlier_detection/
+│       ├── data/
+│       │   └── string_input_parser.dart
+│       ├── domain/
+│       │   ├── entities/
+│       │   │   └── outlier_error.dart
+│       │   ├── services/
+│       │   │   └── outlier_service.dart
+│       │   └── usecases/
+│       │       └── outlier_detection_usecase.dart
+│       └── presentation/
+│           ├── pages/
+│           │   ├── main_page.dart
+│           │   └── result_page.dart
+│           └── viewmodels/
+│               └── main_view_model.dart
+├── app.dart
+└── main.dart
